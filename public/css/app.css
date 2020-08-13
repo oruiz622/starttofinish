@@ -1,0 +1,21 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito);.channel-avatar {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  border: 1px solid black;
+}
+
+.channel-avatar .channel-avatar-overlay {
+  display: none;
+}
+
+.channel-avatar:hover .channel-avatar-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.125);
+}
+
