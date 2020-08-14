@@ -82,5 +82,18 @@
             @yield('content')
         </main>
     </div>
+
+    <script>
+        window.AuthUser = '{!! auth()->user() !!}'
+
+        window.__auth = function() {
+            try {
+                return JSON.parse(AuthUser);
+            } catch(e) {
+                return null;
+            }
+        }
+    </script>
+
 </body>
 </html>

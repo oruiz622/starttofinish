@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "bootswatch": "^4.5.2"
+        "bootswatch": "^4.5.2",
+        "numeral": "^2.0.6"
     }
 }
