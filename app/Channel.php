@@ -40,4 +40,9 @@ class Channel extends Model implements HasMedia
             ->width(150)
             ->height(150);
     }
+
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
 }
