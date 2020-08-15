@@ -50547,11 +50547,6 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
@@ -50572,11 +50567,6 @@ var app = new Vue({
 /***/ (function(module, exports, __webpack_require__) {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
 
 try {
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
@@ -50584,28 +50574,9 @@ try {
 
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 } catch (e) {}
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-// import Echo from 'laravel-echo';
-// window.Pusher = require('pusher-js');
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
 
 /***/ }),
 
@@ -50620,6 +50591,18 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var numeral__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! numeral */ "./node_modules/numeral/numeral.js");
 /* harmony import */ var numeral__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(numeral__WEBPACK_IMPORTED_MODULE_0__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 Vue.component('subscribe-button', {
   props: {
@@ -50630,24 +50613,33 @@ Vue.component('subscribe-button', {
         return {};
       }
     },
-    subscriptions: {
+    initialSubscriptions: {
       type: Array,
       required: true,
-      defaut: function defaut() {
+      "default": function _default() {
         return [];
       }
     }
   },
+  data: function data() {
+    return {
+      subscriptions: this.initialSubscriptions
+    };
+  },
   computed: {
     subscribed: function subscribed() {
       if (!__auth() || this.channel.user_id === __auth().id) return false;
-      return !!this.subscriptions.find(function (subscription) {
-        return subscription.user_id === __auth().id;
-      });
+      return !!this.subscription;
     },
     owner: function owner() {
       if (__auth() && this.channel.user_id === __auth().id) return true;
       return false;
+    },
+    subscription: function subscription() {
+      if (!__auth()) return null;
+      return this.subscriptions.find(function (subscription) {
+        return subscription.user_id === __auth().id;
+      });
     },
     count: function count() {
       return numeral__WEBPACK_IMPORTED_MODULE_0___default()(this.subscriptions.length).format('0a');
@@ -50655,8 +50647,26 @@ Vue.component('subscribe-button', {
   },
   methods: {
     toggleSubscription: function toggleSubscription() {
+      var _this = this;
+
       if (!__auth()) {
-        alert('Please login to subscribe...');
+        return alert('Please login to subscribe.');
+      }
+
+      if (this.owner) {
+        return alert('You cannot subscribe to your channel.');
+      }
+
+      if (this.subscribed) {
+        axios["delete"]("/channels/".concat(this.channel.id, "/subscriptions/").concat(this.subscription.id)).then(function () {
+          _this.subscriptions = _this.subscriptions.filter(function (s) {
+            return s.id !== _this.subscription.id;
+          });
+        });
+      } else {
+        axios.post("/channels/".concat(this.channel.id, "/subscriptions")).then(function (response) {
+          _this.subscriptions = [].concat(_toConsumableArray(_this.subscriptions), [response.data]);
+        });
       }
     }
   }

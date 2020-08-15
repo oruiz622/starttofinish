@@ -5,8 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between">
                     {{ $channel->name }}
+
+                    <a href="{{route('channels.upload', $channel->id)}}">Upload Videos</a>
                 </div>
 
                 <div class="card-body">
@@ -46,9 +48,9 @@
                         </p>
 
                         <div class="text-center">
-                            <subscribe-button :channel="{{ $channel }}" inline-template :subscriptions={{ $channel->subscriptions }}>
+                            <subscribe-button inline-template :channel="{{ $channel }}" :initial-subscriptions="{{ $channel->subscriptions }}">
                                 <button @click="toggleSubscription" class="btn btn-danger">
-                                    @{{ owner ? '' : subscribed ? 'Unsubscribe' : 'Subscribe' }} @{{ count }} @{{ owner ? 'Subscribed' : 'Unsubscribed' }}
+                                    @{{ owner ? '' : subscribed ? 'Unsubscribe' : 'Subscribe' }} @{{ count }} @{{ owner ? 'Subscribers' : '' }}
                                 </button>
                             </subscribe-button>
                         </div>
@@ -62,13 +64,17 @@
                             <label for="name" class="form-control-label">
                                 Name
                             </label>
-                            <input type="text" for="description" class="form-control">
-                                Description
-                            </label>
-                            <textarea class="form-control" name="description" id="description" cols="30" rows="5">{{ $channel->description }}</textarea>
+                            <input type="text" id="name" name="name" value={{ $channel->name }} class="form-control">
                         </div>
 
-                            @if($errors->any())
+                        <div class="form-group">
+                            <label for="description" class="form-control-label">
+                                Description
+                            </label>
+                            <textarea class="form-control" name="description" id="description" rows="5">{{ $channel->description }}</textarea>
+                        </div>
+
+                        @if($errors->any())
                                 <ul class="list-group mb-5">
                                     @foreach($errors->all() as $error)
                                         <li class="list-group-item text-primary">
