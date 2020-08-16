@@ -21,8 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="11049cdd-0a84-430f-8ed5-715f501cbcb1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/VideoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/VideoController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/channels/upload.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/channels/upload.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,7 +204,7 @@
       <workItem from="1597503385400" duration="1321000" />
       <workItem from="1597504813513" duration="19009000" />
       <workItem from="1597536687875" duration="8713000" />
-      <workItem from="1597596739495" duration="4740000" />
+      <workItem from="1597596739495" duration="6012000" />
     </task>
     <servers />
   </component>
